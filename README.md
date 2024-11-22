@@ -28,12 +28,12 @@ Environment Variables
 
 Set up the following environment variables in AWS Lambda or a .env file locally:
 
-WEATHER_API_KEY: Your OpenWeather API key.
-API_KEY: Twitter API key.
-API_KEY_SECRET: Twitter API key secret.
-BEARER_TOKEN: Twitter Bearer token.
-ACCESS_TOKEN: Twitter access token.
-ACCESS_TOKEN_SECRET: Twitter access token secret.
+- WEATHER_API_KEY: Your OpenWeather API key.
+- API_KEY: Twitter API key.
+- API_KEY_SECRET: Twitter API key secret.
+- BEARER_TOKEN: Twitter Bearer token.
+- ACCESS_TOKEN: Twitter access token.
+- ACCESS_TOKEN_SECRET: Twitter access token secret.
 
 Deployment
 
