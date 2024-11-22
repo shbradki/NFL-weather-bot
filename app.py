@@ -15,6 +15,7 @@ ACCESS_TOKEN_SECRET = os.getenv('ACCESS_TOKEN_SECRET')
 CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 
+# Coordinates of each NFL stadium
 stadium_dict = {
     'BAL' : (39.278088, -76.623322),
     'BUF' : (42.773773, -78.787460),
@@ -50,8 +51,9 @@ stadium_dict = {
     'NO': (29.951439, -90.081970)
 }
 
+weather_reports = []
 
-
+# General Twitter Client steup
 def twitter_api_setup():
     twitter_client = tweepy.Client(
         BEARER_TOKEN, API_KEY, API_KEY_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
@@ -63,10 +65,12 @@ def twitter_api_setup():
     api = tweepy.API(auth)
     return twitter_client
 
+# Returns current week in the NFL based on current date
 def get_current_nfl_week(start_date, current_date):
     days_since_start = (current_date - start_date).days
     return (days_since_start // 7) + 1
 
+# Returns hourly weather report for passed team value using OpenWeatherAPI
 def get_weather(team):
     lat = stadium_dict[team][0]
     lon = stadium_dict[team][1]
@@ -75,8 +79,9 @@ def get_weather(team):
     response = requests.get(url)
     return response.json()
 
+# Generates and returns this weeks NFL schedule
 def gen_data():
-    # Define the start date of the NFL 2024 season (e.g., Sept 5, 2024)
+    # Define the start date of the NFL 2024 season (Sept 5, 2024)
     season_start_date = datetime(2024, 9, 5)
     current_date = datetime.now()
     current_week = get_current_nfl_week(season_start_date, current_date)
@@ -90,8 +95,7 @@ def gen_data():
     teams_dates_times = list(zip(home_teams, away_teams, dates, gametimes))
     return teams_dates_times
 
-weather_reports = []
-
+# Uses game date and game time to create datetime object and generate weather report lines based on target times
 def get_game_weather(team, game_date, game_time):
     # Fetch weather data for the team's location
     weather_data = get_weather(team)
@@ -140,6 +144,7 @@ def get_game_weather(team, game_date, game_time):
     # Return the final report as a formatted string
     return weather_report_lines
 
+# Iterates through each game in the week's schedule to generate weather report, returns list of reports
 def gen_reports(day_of_week):
     games_data = gen_data()
     reports = []
@@ -161,13 +166,14 @@ def gen_reports(day_of_week):
             continue
     return reports
 
-# Run it manually for testing
-weather_reports = gen_reports('Thursday')
+# Can run it manually for testing
 # twitter_client = twitter_api_setup()
+weather_reports = gen_reports('Thursday')
 for item in weather_reports:
     print(item)
 #     twitter_client.create_tweet(text=item)
 
+# Lambda handler function
 def lambda_handler(event, context):
     day_of_week = event.get('day_of_week')  # Pass this from EventBridge
     weather_reports = gen_reports(day_of_week)
@@ -176,5 +182,5 @@ def lambda_handler(event, context):
         twitter_client.create_tweet(text=item)
     return {
         'statusCode': 200,
-        'body': json.dumps('Tweets posted successfully')
+        'body': json.dumps('Tweet(s) posted successfully')
     }
