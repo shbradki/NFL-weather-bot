@@ -21,8 +21,8 @@ Requirements:
 
 Clone the Repository
 
-git clone https://github.com/<your-username>/NFL-weather-bot.git
-cd NFL-weather-bot
+- git clone https://github.com/<your-username>/NFL-weather-bot.git
+- cd NFL-weather-bot
 
 Environment Variables
 
