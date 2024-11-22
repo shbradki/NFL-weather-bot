@@ -55,7 +55,7 @@ Package the application
 1. Zip the application and dependencies:
    zip -r lambda_deployment.zip .
    
-2.Add the main application file:
+2. Add the main application file:
    zip -g lambda_deployment.zip app.py
 
 Deploy to AWS
