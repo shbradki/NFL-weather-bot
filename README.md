@@ -118,10 +118,15 @@ requirements.txt
   datetime
 
 Project Architecture
+
 - NFL Schedules: Pulled using nfl_data_py.
 - Weather Data: Retrieved for each stadium using the OpenWeather API.
 - Twitter Integration: Posts game-specific weather updates to a Twitter account.
 
+License
 
+This project is licensed under the MIT License. See the LICENSE file for more details.
 
+Contributing
 
+Feel free to submit issues or pull requests to improve this project. Contributions are welcome!
