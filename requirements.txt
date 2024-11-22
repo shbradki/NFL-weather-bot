@@ -1,0 +1,4 @@
+requests
+nfl_data_py
+tweepy
+pytz
